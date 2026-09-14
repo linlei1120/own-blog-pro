@@ -31,10 +31,8 @@ export const HomePage: React.FC = () => {
 
   // Hero Initial Scroll Parallax states
   const heroSectionRef = useRef<HTMLElement | null>(null);
-  const heroPortraitWrapperRef = useRef<HTMLDivElement | null>(null);
   const heroNameWrapperRef = useRef<HTMLDivElement | null>(null);
   const heroRolesWrapperRef = useRef<HTMLDivElement | null>(null);
-  const [heroParallaxY, setHeroParallaxY] = useState(0);
 
   // Listen to scroll for hero depth parallax
   useEffect(() => {
@@ -47,19 +45,14 @@ export const HomePage: React.FC = () => {
           const heroHeight = heroSectionRef.current?.offsetHeight || window.innerHeight;
 
           if (scrollY <= heroHeight * 1.3) {
-            // Calculate proportional offsets for different depth planes
-            // 1. Portrait moves downward slightly slower than scroll (0.28x rate) creating foreground relief
-            const portraitOffset = scrollY * 0.28;
-            // 2. Giant typography sinks slower into background (0.12x rate) with slight scale down
-            const nameOffset = scrollY * 0.14;
+            // Calculate proportional offsets for depth planes
+            // 1. Giant typography sinks into background (0.15x rate) with slight scale down
+            const nameOffset = scrollY * 0.15;
             const nameScale = Math.max(0.92, 1 - (scrollY / heroHeight) * 0.1);
-            // 3. Header text and cues float up and fade
+            // 2. Header text and cues float up and fade
             const rolesOpacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.55)));
             const rolesOffset = scrollY * -0.15;
 
-            if (heroPortraitWrapperRef.current) {
-              heroPortraitWrapperRef.current.style.transform = `translate3d(-50%, ${portraitOffset}px, 0)`;
-            }
             if (heroNameWrapperRef.current) {
               heroNameWrapperRef.current.style.transform = `translate3d(0, ${nameOffset}px, 0) scale(${nameScale})`;
             }
@@ -67,8 +60,6 @@ export const HomePage: React.FC = () => {
               heroRolesWrapperRef.current.style.opacity = `${rolesOpacity}`;
               heroRolesWrapperRef.current.style.transform = `translate3d(0, ${rolesOffset}px, 0)`;
             }
-
-            setHeroParallaxY(scrollY * 0.2);
           }
           ticking = false;
         });
@@ -240,36 +231,10 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Center: Cutout Portrait composited in front of giant name */}
-        <div 
-          ref={heroPortraitWrapperRef}
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 h-[72vh] sm:h-[84vh] w-[88vw] sm:w-[50vw] lg:w-[38vw] pointer-events-none flex items-end justify-center will-change-transform"
-        >
-          <LiquidImage
-            src="https://api.getlayers.ai/storage/v1/object/public/public/assets/marcus-vane-6799bd1fb6/hero/portrait.webp"
-            videoSrc="https://api.getlayers.ai/storage/v1/object/public/public/assets/marcus-vane-6799bd1fb6/hero/hero.mp4"
-            poster="https://api.getlayers.ai/storage/v1/object/public/public/assets/marcus-vane-6799bd1fb6/hero/portrait.webp"
-            alt="Marcus Vane / Alex Chen Portrait"
-            mode="bare"
-            maxScale={30}
-            parallaxOffset={heroParallaxY * 0.4}
-            parallaxScale={1.03}
-            objectFit="cover"
-            objectPosition="center bottom"
-            className="w-full h-full"
-          />
-        </div>
-
-        {/* Gradient base: melts portrait & name into page canvas */}
-        <div 
-          className="absolute inset-x-0 bottom-0 z-20 h-40 pointer-events-none"
-          style={{ background: 'linear-gradient(to bottom, transparent, var(--background) 85%)' }}
-        />
-
         {/* Background giant name <h1>: Two stacked lines with Parallax Depth */}
         <div 
           ref={heroNameWrapperRef}
-          className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center select-none pointer-events-none pb-2 will-change-transform transition-transform duration-75"
+          className="relative z-10 flex flex-col items-center select-none pointer-events-none pb-4 pt-10 will-change-transform transition-transform duration-75"
         >
           <h1 className="flex flex-col items-center font-display uppercase tracking-tighter text-[#ff3b1d] leading-[0.76] text-center w-full">
             <span 

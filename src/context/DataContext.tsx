@@ -43,6 +43,24 @@ export const THEME_OPTIONS: ThemeOption[] = [
     dotColor: '#ffaa00'
   },
   {
+    id: 'cyber-purple',
+    name: '极客霓紫',
+    enName: 'Cyber Purple',
+    accent: '#a855f7',
+    bg: '#090611',
+    previewColor: '#a855f7',
+    dotColor: '#a855f7'
+  },
+  {
+    id: 'tech-blue',
+    name: '科技湛蓝',
+    enName: 'Tech Blue',
+    accent: '#00d2ff',
+    bg: '#050b14',
+    previewColor: '#00d2ff',
+    dotColor: '#00d2ff'
+  },
+  {
     id: 'nordic-light',
     name: '极简明昼',
     enName: 'Nordic Light',
@@ -108,7 +126,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [themeMode, setThemeModeState] = useState<ThemeMode>(() => {
     try {
       const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode;
-      if (saved && ['cyber-noir', 'matrix-green', 'solar-amber', 'nordic-light'].includes(saved)) {
+      if (saved && ['cyber-noir', 'matrix-green', 'solar-amber', 'cyber-purple', 'tech-blue', 'nordic-light'].includes(saved)) {
         return saved;
       }
     } catch (e) {

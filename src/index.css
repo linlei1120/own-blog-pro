@@ -43,6 +43,32 @@
   --accent-2: #ffc247;
 }
 
+/* Cyber Purple Theme */
+[data-theme="cyber-purple"] {
+  --background: #090611;
+  --foreground: #f4f0fa;
+  --surface: #120c22;
+  --surface-2: #1b1230;
+  --muted: #8d81a3;
+  --line: rgba(168, 85, 247, 0.12);
+  --line-strong: rgba(168, 85, 247, 0.26);
+  --accent: #a855f7;
+  --accent-2: #c084fc;
+}
+
+/* Tech Blue Theme */
+[data-theme="tech-blue"] {
+  --background: #050b14;
+  --foreground: #eef5fc;
+  --surface: #0a1322;
+  --surface-2: #0e1c33;
+  --muted: #728aa6;
+  --line: rgba(0, 210, 255, 0.12);
+  --line-strong: rgba(0, 210, 255, 0.26);
+  --accent: #00d2ff;
+  --accent-2: #38bdf8;
+}
+
 /* Nordic Light Theme */
 [data-theme="nordic-light"] {
   --background: #f7f6f2;
@@ -349,4 +375,86 @@ html, body, #root {
 }
 [data-theme="solar-amber"] .border-\[\#ff3b1d\]\/40 {
   border-color: rgba(255, 170, 0, 0.4) !important;
+}
+
+/* Cyber Purple theme overrides */
+[data-theme="cyber-purple"] .bg-\[\#08080a\] {
+  background-color: var(--background) !important;
+}
+[data-theme="cyber-purple"] .bg-\[\#08080a\]\/85 {
+  background-color: rgba(9, 6, 17, 0.88) !important;
+}
+[data-theme="cyber-purple"] .bg-\[\#111114\] {
+  background-color: var(--surface) !important;
+}
+[data-theme="cyber-purple"] .bg-\[\#17171b\] {
+  background-color: var(--surface-2) !important;
+}
+[data-theme="cyber-purple"] .text-\[\#ff3b1d\] {
+  color: var(--accent) !important;
+}
+[data-theme="cyber-purple"] .bg-\[\#ff3b1d\] {
+  background-color: var(--accent) !important;
+}
+[data-theme="cyber-purple"] .border-\[\#ff3b1d\] {
+  border-color: var(--accent) !important;
+}
+[data-theme="cyber-purple"] .group:hover .group-hover\:text-\[\#ff3b1d\] {
+  color: var(--accent) !important;
+}
+[data-theme="cyber-purple"] .hover\:text-\[\#ff3b1d\]:hover {
+  color: var(--accent) !important;
+}
+[data-theme="cyber-purple"] .hover\:border-\[\#ff3b1d\]:hover {
+  border-color: var(--accent) !important;
+}
+[data-theme="cyber-purple"] .text-\[\#ff6a3d\] {
+  color: var(--accent-2) !important;
+}
+[data-theme="cyber-purple"] .bg-\[\#ff3b1d\]\/15 {
+  background-color: rgba(168, 85, 247, 0.15) !important;
+}
+[data-theme="cyber-purple"] .border-\[\#ff3b1d\]\/40 {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+/* Tech Blue theme overrides */
+[data-theme="tech-blue"] .bg-\[\#08080a\] {
+  background-color: var(--background) !important;
+}
+[data-theme="tech-blue"] .bg-\[\#08080a\]\/85 {
+  background-color: rgba(5, 11, 20, 0.88) !important;
+}
+[data-theme="tech-blue"] .bg-\[\#111114\] {
+  background-color: var(--surface) !important;
+}
+[data-theme="tech-blue"] .bg-\[\#17171b\] {
+  background-color: var(--surface-2) !important;
+}
+[data-theme="tech-blue"] .text-\[\#ff3b1d\] {
+  color: var(--accent) !important;
+}
+[data-theme="tech-blue"] .bg-\[\#ff3b1d\] {
+  background-color: var(--accent) !important;
+}
+[data-theme="tech-blue"] .border-\[\#ff3b1d\] {
+  border-color: var(--accent) !important;
+}
+[data-theme="tech-blue"] .group:hover .group-hover\:text-\[\#ff3b1d\] {
+  color: var(--accent) !important;
+}
+[data-theme="tech-blue"] .hover\:text-\[\#ff3b1d\]:hover {
+  color: var(--accent) !important;
+}
+[data-theme="tech-blue"] .hover\:border-\[\#ff3b1d\]:hover {
+  border-color: var(--accent) !important;
+}
+[data-theme="tech-blue"] .text-\[\#ff6a3d\] {
+  color: var(--accent-2) !important;
+}
+[data-theme="tech-blue"] .bg-\[\#ff3b1d\]\/15 {
+  background-color: rgba(0, 210, 255, 0.15) !important;
+}
+[data-theme="tech-blue"] .border-\[\#ff3b1d\]\/40 {
+  border-color: rgba(0, 210, 255, 0.4) !important;
 }

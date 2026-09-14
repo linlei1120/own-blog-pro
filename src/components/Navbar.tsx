@@ -151,7 +151,7 @@ export const Navbar: React.FC = () => {
                 <div className="text-[10px] font-mono uppercase tracking-widest text-[#807f78] mb-2">
                   THEME COLOR // 主题配色
                 </div>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {THEME_OPTIONS.map((t) => {
                     const isSelected = t.id === themeMode;
                     return (
@@ -160,12 +160,13 @@ export const Navbar: React.FC = () => {
                         onClick={() => setThemeMode(t.id)}
                         className={`flex items-center gap-2 p-2 rounded-lg border text-xs text-left transition-all ${
                           isSelected
-                            ? 'border-[#ff3b1d] bg-[#17171b] text-[#f3f1ea]'
-                            : 'border-[rgba(243,241,234,0.1)] bg-[#111114] text-[#807f78]'
+                            ? 'bg-[#17171b] text-[#f3f1ea]'
+                            : 'border-[rgba(243,241,234,0.1)] bg-[#111114] text-[#807f78] hover:border-[rgba(243,241,234,0.25)]'
                         }`}
+                        style={{ borderColor: isSelected ? t.accent : undefined }}
                       >
                         <span
-                          className="w-3 h-3 rounded-full shrink-0"
+                          className="w-3 h-3 rounded-full shrink-0 shadow-sm"
                           style={{ backgroundColor: t.previewColor }}
                         />
                         <span className="truncate">{t.name}</span>

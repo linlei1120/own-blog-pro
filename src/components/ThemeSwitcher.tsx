@@ -33,7 +33,8 @@ export const ThemeSwitcher: React.FC = () => {
       {/* Theme Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full border border-[rgba(243,241,234,0.18)] bg-[#111114] text-[#f3f1ea] hover:border-[#ff3b1d] transition-all text-xs font-mono"
+        className="group flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-full border border-[rgba(243,241,234,0.18)] bg-[#111114] text-[#f3f1ea] hover:border-[var(--accent)] transition-all text-xs font-mono"
+        style={{ borderColor: isOpen ? currentTheme.accent : undefined }}
         title="切换全站色彩主题"
         aria-label="Toggle theme selector"
       >
@@ -42,11 +43,11 @@ export const ThemeSwitcher: React.FC = () => {
             className="w-2.5 h-2.5 rounded-full ring-1 ring-white/20 transition-transform duration-300"
             style={{ backgroundColor: currentTheme.accent }}
           />
-          <span className="hidden sm:inline-block font-sans text-xs uppercase tracking-wider text-[#807f78]">
+          <span className="hidden sm:inline-block font-sans text-xs uppercase tracking-wider text-[#807f78] group-hover:text-[#f3f1ea] transition-colors">
             {currentTheme.name}
           </span>
         </div>
-        <Palette className="w-3.5 h-3.5 text-[#807f78] group-hover:text-[#ff3b1d]" />
+        <Palette className="w-3.5 h-3.5 text-[#807f78] group-hover:text-[var(--accent)] transition-colors" />
       </button>
 
       {/* Dropdown Menu */}
@@ -54,7 +55,7 @@ export const ThemeSwitcher: React.FC = () => {
         <div className="absolute right-0 mt-2.5 w-56 rounded-xl border border-[rgba(243,241,234,0.18)] bg-[#111114]/95 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5)] p-2 z-50 animate-in fade-in zoom-in-95 duration-200">
           <div className="px-2.5 py-1.5 text-[10px] font-mono uppercase tracking-widest text-[#807f78] border-b border-[rgba(243,241,234,0.1)] mb-1 flex items-center justify-between">
             <span>THEME PALETTE // 主题配色</span>
-            <span className="text-[#ff3b1d]">●</span>
+            <span style={{ color: currentTheme.accent }}>●</span>
           </div>
 
           <div className="space-y-1">
@@ -86,7 +87,7 @@ export const ThemeSwitcher: React.FC = () => {
                   </div>
 
                   {isSelected && (
-                    <Check className="w-3.5 h-3.5 text-[#ff3b1d]" />
+                    <Check className="w-3.5 h-3.5" style={{ color: theme.accent }} />
                   )}
                 </button>
               );

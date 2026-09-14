@@ -1,6 +1,6 @@
 export type NavPage = 'home' | 'about' | 'projects' | 'articles' | 'tools' | 'admin' | '404';
 
-export type ThemeMode = 'cyber-noir' | 'matrix-green' | 'nordic-light' | 'solar-amber';
+export type ThemeMode = 'cyber-noir' | 'matrix-green' | 'nordic-light' | 'solar-amber' | 'cyber-purple' | 'tech-blue';
 
 export interface ThemeOption {
   id: ThemeMode;
