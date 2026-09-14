@@ -89,7 +89,6 @@ export const ProjectParallaxCard: React.FC<ProjectParallaxCardProps> = ({
     >
       {/* Visual Image Frame with Liquid Shader & Scroll-Based Parallax */}
       <div className="relative rounded-sm overflow-hidden border border-[rgba(243,241,234,0.1)] group-hover:border-[#ff3b1d] transition-colors duration-500 bg-[#0d0d10]">
-        
         {/* Liquid Image with internal parallax translation */}
         <LiquidImage
           src={assetUrl}
