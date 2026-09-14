@@ -1,0 +1,6 @@
+{
+  "name": "开发者个人技术品牌主页",
+  "description": "面向招聘方、同行与技术学习者的现代化全栈开发者个人品牌主页，包含30秒速览、精选项目合集、分类知识库、推荐工具库以及后台内容管理系统。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
