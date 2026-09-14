@@ -29,6 +29,68 @@ export const HomePage: React.FC = () => {
   const descRef = useRef<HTMLParagraphElement | null>(null);
   const scrollCueRef = useRef<HTMLDivElement | null>(null);
 
+  // Hero Initial Scroll Parallax states
+  const heroSectionRef = useRef<HTMLElement | null>(null);
+  const heroPortraitWrapperRef = useRef<HTMLDivElement | null>(null);
+  const heroNameWrapperRef = useRef<HTMLDivElement | null>(null);
+  const heroRolesWrapperRef = useRef<HTMLDivElement | null>(null);
+  const [heroParallaxY, setHeroParallaxY] = useState(0);
+
+  // Listen to scroll for hero depth parallax
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const heroHeight = heroSectionRef.current?.offsetHeight || window.innerHeight;
+
+          if (scrollY <= heroHeight * 1.3) {
+            // Calculate proportional offsets for different depth planes
+            // 1. Portrait moves downward slightly slower than scroll (0.28x rate) creating foreground relief
+            const portraitOffset = scrollY * 0.28;
+            // 2. Giant typography sinks slower into background (0.12x rate) with slight scale down
+            const nameOffset = scrollY * 0.14;
+            const nameScale = Math.max(0.92, 1 - (scrollY / heroHeight) * 0.1);
+            // 3. Header text and cues float up and fade
+            const rolesOpacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.55)));
+            const rolesOffset = scrollY * -0.15;
+
+            if (heroPortraitWrapperRef.current) {
+              heroPortraitWrapperRef.current.style.transform = `translate3d(-50%, ${portraitOffset}px, 0)`;
+            }
+            if (heroNameWrapperRef.current) {
+              heroNameWrapperRef.current.style.transform = `translate3d(0, ${nameOffset}px, 0) scale(${nameScale})`;
+            }
+            if (heroRolesWrapperRef.current) {
+              heroRolesWrapperRef.current.style.opacity = `${rolesOpacity}`;
+              heroRolesWrapperRef.current.style.transform = `translate3d(0, ${rolesOffset}px, 0)`;
+            }
+
+            setHeroParallaxY(scrollY * 0.2);
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Also attach to window.lenis if present
+    const lenis = (window as unknown as { lenis?: { on: (event: string, cb: () => void) => void; off: (event: string, cb: () => void) => void } }).lenis;
+    if (lenis && typeof lenis.on === 'function') {
+      lenis.on('scroll', handleScroll);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (lenis && typeof lenis.off === 'function') {
+        lenis.off('scroll', handleScroll);
+      }
+    };
+  }, []);
+
   // Voices (Testimonials) state
   const voices = [
     {
@@ -137,11 +199,14 @@ export const HomePage: React.FC = () => {
       {/* ============================================================ */}
       <section 
         id="top" 
+        ref={heroSectionRef}
         className="relative min-h-[92vh] sm:min-h-[96vh] flex flex-col justify-between overflow-hidden pt-24 sm:pt-28 pb-8"
       >
         {/* Top row: Role words on left, Description on right */}
-        <div className="relative z-30 flex flex-col sm:flex-row items-start justify-between gap-6 sm:gap-12 px-2 sm:px-4">
-          
+        <div 
+          ref={heroRolesWrapperRef}
+          className="relative z-30 flex flex-col sm:flex-row items-start justify-between gap-6 sm:gap-12 px-2 sm:px-4 transition-transform duration-75 will-change-transform"
+        >
           {/* Left: 4 stacked display role words */}
           <div ref={rolesRef} className="flex flex-col font-display text-3xl sm:text-4xl md:text-5xl uppercase tracking-tight text-[#f3f1ea] leading-[1.05]">
             <div className="overflow-hidden"><span className="role-line block opacity-0">FOUNDER</span></div>
@@ -176,7 +241,10 @@ export const HomePage: React.FC = () => {
         </div>
 
         {/* Center: Cutout Portrait composited in front of giant name */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 h-[72vh] sm:h-[84vh] w-[88vw] sm:w-[50vw] lg:w-[38vw] pointer-events-none flex items-end justify-center">
+        <div 
+          ref={heroPortraitWrapperRef}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 h-[72vh] sm:h-[84vh] w-[88vw] sm:w-[50vw] lg:w-[38vw] pointer-events-none flex items-end justify-center will-change-transform"
+        >
           <LiquidImage
             src="https://api.getlayers.ai/storage/v1/object/public/public/assets/marcus-vane-6799bd1fb6/hero/portrait.webp"
             videoSrc="https://api.getlayers.ai/storage/v1/object/public/public/assets/marcus-vane-6799bd1fb6/hero/hero.mp4"
@@ -184,6 +252,8 @@ export const HomePage: React.FC = () => {
             alt="Marcus Vane / Alex Chen Portrait"
             mode="bare"
             maxScale={30}
+            parallaxOffset={heroParallaxY * 0.4}
+            parallaxScale={1.03}
             objectFit="cover"
             objectPosition="center bottom"
             className="w-full h-full"
@@ -193,11 +263,14 @@ export const HomePage: React.FC = () => {
         {/* Gradient base: melts portrait & name into page canvas */}
         <div 
           className="absolute inset-x-0 bottom-0 z-20 h-40 pointer-events-none"
-          style={{ background: 'linear-gradient(to bottom, transparent, #08080a 85%)' }}
+          style={{ background: 'linear-gradient(to bottom, transparent, var(--background) 85%)' }}
         />
 
-        {/* Background giant name <h1>: Two stacked lines */}
-        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center select-none pointer-events-none pb-2">
+        {/* Background giant name <h1>: Two stacked lines with Parallax Depth */}
+        <div 
+          ref={heroNameWrapperRef}
+          className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center select-none pointer-events-none pb-2 will-change-transform transition-transform duration-75"
+        >
           <h1 className="flex flex-col items-center font-display uppercase tracking-tighter text-[#ff3b1d] leading-[0.76] text-center w-full">
             <span 
               ref={nameLine1Ref} 

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Sparkles, Terminal, ArrowUpRight, Menu, X, Shield } from 'lucide-react';
-import { usePortfolioData } from '../context/DataContext';
+import { usePortfolioData, THEME_OPTIONS } from '../context/DataContext';
+import { ThemeSwitcher } from './ThemeSwitcher';
 
 export const Navbar: React.FC = () => {
-  const { activePage, setActivePage, setIsElevatorOpen, setIsResumeOpen } = usePortfolioData();
+  const { activePage, setActivePage, setIsElevatorOpen, setIsResumeOpen, themeMode, setThemeMode } = usePortfolioData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -68,7 +69,10 @@ export const Navbar: React.FC = () => {
           </ul>
 
           {/* Action CTAs */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Theme Switcher */}
+            <ThemeSwitcher />
+
             {/* 30s Elevator Pitch Button */}
             <button
               onClick={() => setIsElevatorOpen(true)}
@@ -141,7 +145,36 @@ export const Navbar: React.FC = () => {
               ))}
             </ul>
 
-            <div className="pt-6 border-t border-[rgba(243,241,234,0.1)] space-y-3">
+            <div className="pt-6 border-t border-[rgba(243,241,234,0.1)] space-y-4">
+              {/* Mobile Theme Selector */}
+              <div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#807f78] mb-2">
+                  THEME COLOR // 主题配色
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {THEME_OPTIONS.map((t) => {
+                    const isSelected = t.id === themeMode;
+                    return (
+                      <button
+                        key={t.id}
+                        onClick={() => setThemeMode(t.id)}
+                        className={`flex items-center gap-2 p-2 rounded-lg border text-xs text-left transition-all ${
+                          isSelected
+                            ? 'border-[#ff3b1d] bg-[#17171b] text-[#f3f1ea]'
+                            : 'border-[rgba(243,241,234,0.1)] bg-[#111114] text-[#807f78]'
+                        }`}
+                      >
+                        <span
+                          className="w-3 h-3 rounded-full shrink-0"
+                          style={{ backgroundColor: t.previewColor }}
+                        />
+                        <span className="truncate">{t.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);

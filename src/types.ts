@@ -1,5 +1,17 @@
 export type NavPage = 'home' | 'about' | 'projects' | 'articles' | 'tools' | 'admin' | '404';
 
+export type ThemeMode = 'cyber-noir' | 'matrix-green' | 'nordic-light' | 'solar-amber';
+
+export interface ThemeOption {
+  id: ThemeMode;
+  name: string;
+  enName: string;
+  accent: string;
+  bg: string;
+  previewColor: string;
+  dotColor: string;
+}
+
 export interface ProfileSkillItem {
   name: string;
   level: number; // 1-100

@@ -5,14 +5,58 @@ import {
   ProjectItem, 
   ArticleItem, 
   ToolItem, 
-  NavPage 
+  NavPage,
+  ThemeMode,
+  ThemeOption
 } from '../types';
 import { initialPortfolioData } from '../data/initialData';
 
 const LOCAL_STORAGE_KEY = 'dev_brand_portfolio_store_v1';
+const THEME_STORAGE_KEY = 'dev_brand_theme_mode_v1';
+
+export const THEME_OPTIONS: ThemeOption[] = [
+  {
+    id: 'cyber-noir',
+    name: '赛博玄黑',
+    enName: 'Cyber Noir',
+    accent: '#ff3b1d',
+    bg: '#08080a',
+    previewColor: '#ff3b1d',
+    dotColor: '#ff3b1d'
+  },
+  {
+    id: 'matrix-green',
+    name: '极客矩阵',
+    enName: 'Matrix Green',
+    accent: '#00ff88',
+    bg: '#060d09',
+    previewColor: '#00ff88',
+    dotColor: '#00ff88'
+  },
+  {
+    id: 'solar-amber',
+    name: '日耀琥珀',
+    enName: 'Solar Amber',
+    accent: '#ffaa00',
+    bg: '#0c0a06',
+    previewColor: '#ffaa00',
+    dotColor: '#ffaa00'
+  },
+  {
+    id: 'nordic-light',
+    name: '极简明昼',
+    enName: 'Nordic Light',
+    accent: '#e6391a',
+    bg: '#f8f7f4',
+    previewColor: '#e6391a',
+    dotColor: '#17171b'
+  }
+];
 
 interface DataContextType {
   data: PortfolioStore;
+  themeMode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
   activePage: NavPage;
   setActivePage: (page: NavPage) => void;
   selectedProjectId: string | null;
@@ -60,6 +104,39 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     return initialPortfolioData;
   });
+
+  const [themeMode, setThemeModeState] = useState<ThemeMode>(() => {
+    try {
+      const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode;
+      if (saved && ['cyber-noir', 'matrix-green', 'solar-amber', 'nordic-light'].includes(saved)) {
+        return saved;
+      }
+    } catch (e) {
+      console.warn('Failed to parse theme from localStorage', e);
+    }
+    return 'cyber-noir';
+  });
+
+  const setThemeMode = (mode: ThemeMode) => {
+    setThemeModeState(mode);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, mode);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  // Sync theme mode to documentElement attribute
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', themeMode);
+    if (themeMode === 'nordic-light') {
+      document.documentElement.classList.add('theme-light');
+      document.documentElement.classList.remove('theme-dark');
+    } else {
+      document.documentElement.classList.add('theme-dark');
+      document.documentElement.classList.remove('theme-light');
+    }
+  }, [themeMode]);
 
   const [activePage, setActivePage] = useState<NavPage>('home');
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
@@ -178,6 +255,8 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <DataContext.Provider
       value={{
         data,
+        themeMode,
+        setThemeMode,
         activePage,
         setActivePage,
         selectedProjectId,

@@ -186,26 +186,27 @@ export const LiquidImage: React.FC<LiquidImageProps> = ({
         <>
           {/* Subtle color blend veil */}
           <div 
-            className="absolute inset-0 bg-[#08080a] mix-blend-color opacity-70 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" 
+            className="absolute inset-0 mix-blend-color opacity-70 group-hover:opacity-0 transition-opacity duration-500 pointer-events-none" 
+            style={{ backgroundColor: 'var(--background)' }}
             aria-hidden="true" 
           />
 
           {/* Accent glow sweep on hover */}
           <div 
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" 
             style={{
-              background: 'linear-gradient(120deg, transparent 30%, rgba(255, 59, 29, 0.25) 50%, transparent 70%)'
+              background: 'linear-gradient(120deg, transparent 30%, var(--line-strong) 50%, transparent 70%)'
             }}
-            aria-hidden="true"
+            aria-hidden="true" 
           />
 
           {/* Persistent radial vignette */}
           <div 
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'radial-gradient(120% 120% at 50% 120%, rgba(8,8,10,0.7) 0%, transparent 60%)'
+              background: 'radial-gradient(120% 120% at 50% 120%, rgba(0,0,0,0.5) 0%, transparent 60%)'
             }}
-            aria-hidden="true"
+            aria-hidden="true" 
           />
         </>
       )}
